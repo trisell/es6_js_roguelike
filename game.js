@@ -1,7 +1,5 @@
 const ROT = require('rot-js');
-const readline = require('readline');
-readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
+
 
 module.exports  = class Game {
   constructor() {
@@ -12,43 +10,21 @@ module.exports  = class Game {
   
   init() {
     this._display = new ROT.Display({width: 80, height: 24, layout: 'term'});
-    let game = this;
-    
-    
-    let bindEventToScreen = (event) => {
-      if (game._currentScreen !== null) {
-        window.addEventListener (event, (e) => {
+    let container = this._display.getContainer();
+    let foreground, background, colors;
 
-        game._currentScreen.handleInput(event, e);
-        })
-      }
-    }
-    process.stdin.on('keypress', (chunk, key) =>{
-      if (key && key.ctrl && key.name == 'c') {
-        process.exit();
-      }
-      if(game._currentScreen !== null) {
-        game._currentScreen.handleInput(key, game);
-      }
-    });
-    bindEventToScreen('keyup');
-    //bindEventToScreen('keypress');
-  }
-
-  getDisplay() {
-    return this._display;
-  }
-  
-  switchScreen(screen) {
-    if (this._currentScreen !== null) {
-      this._currentScreen.exit();
-    }
-    this.getDisplay().clear();
-    this._currentScreen = screen;
-    if (!this._currentScreen !== null) {
-      this._currentScreen.enter();
-      this._currentScreen.render(this._display);
+    for (var i = 0; i < 15; i++) {
+      // Calculate the foreground color, getting progressively darker
+      // and the background color, getting progressively lighter.
+      foreground = ROT.Color.toRGB([255 - (i*20),
+                                    255 - (i*20),
+                                    255 - (i*20)]);
+      background = ROT.Color.toRGB([i*20, i*20, i*20]);
+      // Create the color format specifier.
+      colors = "%c{" + foreground + "}%b{" + background + "}";
+      // Draw the text two columns in and at the row specified
+      // by i
+      this._display.drawText(2, i, colors + "Hello, world!");
     }
   }
-  
 }
