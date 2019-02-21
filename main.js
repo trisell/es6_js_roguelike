@@ -1,10 +1,9 @@
 const ROT = require('rot-js');
 const Game = require('./game');
-const Screens = require('./screen');
+const { StartScreen } = require('./startScreen');
 
 const display = new Game;
-let startScreen = new Screens.StartScreen;
-//const playScreen = new Screens.PlayScreen;
+let startScreen = new StartScreen;
 
 display.init();
 display.getDisplay().getContainer();
