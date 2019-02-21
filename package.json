@@ -1,0 +1,12 @@
+{
+  "name": "js_roguelike",
+  "version": "0.0.1",
+  "description": "A JS Roguelike",
+  "main": "main.js",
+  "author": "Dominic Desimini",
+  "license": "MIT",
+  "dependencies": {
+    "keypress": "^0.2.1",
+    "rot-js": "^2.0.3"
+  }
+}
